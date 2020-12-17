@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <title>Brute Force</title>
+</head>
+
+<body>
+  <div class="container" style="border: 2px solid darkblue;">
+    <div class="col-lg-12 p-5">
+      <label for="">Number of characters: </label>
+      <input type="text" name="noOfChar" id="noOfChar" value="">
+      <button class="btn btn-primary" id="bruteForceBtn">Brute Force</button>
+      <div class="d-none" id="crackedPasswdDiv">
+        <p>The cracked password is :
+          <span class="spinner-border spinner" style="width: 1rem;height: 1rem;" role="status"></span>
+          <span id="passwdSpan"> </span>
+        </p>
+        <p>Time Taken: <span id="timeTaken"></span></p>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous">
+</script>
+
+<script>
+  var i;
+  var password = 123456;
+  var endVal = "";
+  var result;
+
+  $("#bruteForceBtn").click(function () {
+
+    $('#crackedPasswdDiv').removeClass("d-none");
+    var noOfChar    = $('#noOfChar').val();
+
+    // To get the time started for calculating total time taken
+    var startTime   = new Date();
+
+    // To get the final number of the combination
+    for (let k = 1; k <= noOfChar; k++) {
+      endVal = endVal + "9";
+    }
+
+    // Iterate through each combination upto the final value of the combination
+    for (i = 0; i <= endVal; i++) {
+      $('#passwdSpan').html(i);
+      if (i == password) {
+        result = true;
+        break;
+      } else {
+        result = false;
+      }
+    }
+    if (result == true) {
+      // To get the total time taken to crack the password
+      var diff = Math.abs(startTime - new Date()); 
+
+      if(diff < 1000){ //If cracked within milliseconds
+        console.log("Time taken in milliseconds = "+diff);
+        $('#timeTaken').html(diff+"(ms)");
+      }
+      else{ // If cracked within seconds
+        seconds = diff/1000;
+        console.log("Time taken in seconds = "+seconds);
+        $('#timeTaken').html(seconds+"(s)");
+      }
+      $('.spinner').addClass("d-none");
+      $('#passwdSpan').html(i);
+    } else {
+      $('#crackedPasswdDiv').addClass("d-none");
+      alert("No match found in provided character length");
+    }
+
+  });
+</script>
+
+</html>
